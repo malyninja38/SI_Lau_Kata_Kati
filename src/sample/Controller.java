@@ -2,6 +2,10 @@ package sample;
 
 public class Controller {
 
+    Boolean gracz1 = false;
+    Boolean gracz2 = false;
+    Boolean koniecGry = false;
+
     void stworzPionki(){
 
         Pionek pionek1 = new Pionek(1, true, 1);
@@ -47,6 +51,27 @@ public class Controller {
         Pole pole17 = new Pole(17, false);
         Pole pole18 = new Pole(18, false);
         Pole pole19 = new Pole(19, false);
+
+    }
+
+    void ruchGracza1(){
+
+    }
+
+    void ruchGracza2(){
+
+    }
+
+    void gra(){
+
+        stworzPionki();
+        stworzPola();
+
+        while(!koniecGry){
+            ruchGracza1();
+            ruchGracza2();
+        }
+
 
     }
 
