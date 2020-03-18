@@ -47,6 +47,7 @@ public class Controller {
 
 
 
+
     void stworzPionki(){
 
         Pionek pionek1 = new Pionek(1, true, 1);
