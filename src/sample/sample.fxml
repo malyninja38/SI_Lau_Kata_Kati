@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -35,7 +34,7 @@
       <Circle fx:id="field17" fill="WHITE" layoutX="126.0" layoutY="517.0" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="field18" fill="WHITE" layoutX="274.0" layoutY="518.0" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="field19" fill="WHITE" layoutX="419.0" layoutY="518.0" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <TextField fx:id="player1" editable="false" layoutX="544.0" layoutY="312.0" prefHeight="25.0" prefWidth="61.0" text="Gracz 1" />
-      <TextField fx:id="player2" editable="false" layoutX="651.0" layoutY="312.0" prefHeight="25.0" prefWidth="61.0" text="Gracz 2" />
+      <Button fx:id="player1" layoutX="541.0" layoutY="324.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Gracz 1" />
+      <Button fx:id="player2" layoutX="650.0" layoutY="324.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Gracz 2" />
    </children>
 </Pane>
