@@ -15,25 +15,25 @@
          <image>
             <Image url="@../img/plansza.png" />
          </image></ImageView>
-      <Circle fx:id="field1" fill="WHITE" layoutX="126.0" layoutY="97.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field2" fill="WHITE" layoutX="272.0" layoutY="97.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field3" fill="WHITE" layoutX="419.0" layoutY="97.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field4" fill="WHITE" layoutX="166.0" layoutY="153.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field5" fill="WHITE" layoutX="273.0" layoutY="153.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field6" fill="WHITE" layoutX="380.0" layoutY="153.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field7" fill="WHITE" layoutX="208.0" layoutY="213.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field1" fill="#88fbc3" layoutX="126.0" layoutY="97.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field2" fill="#88fbc3" layoutX="272.0" layoutY="97.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field3" fill="#88fbc3" layoutX="419.0" layoutY="97.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field4" fill="#88fbc3" layoutX="166.0" layoutY="153.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field5" fill="#88fbc3" layoutX="273.0" layoutY="153.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field6" fill="#88fbc3" layoutX="380.0" layoutY="153.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field7" fill="#88fbc3" layoutX="208.0" layoutY="213.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fx:id="field10" fill="WHITE" layoutX="273.0" layoutY="306.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field8" fill="WHITE" layoutX="274.0" layoutY="213.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field9" fill="WHITE" layoutX="339.0" layoutY="212.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field11" fill="WHITE" layoutX="215.0" layoutY="390.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field12" fill="WHITE" layoutX="273.0" layoutY="390.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field13" fill="WHITE" layoutX="330.0" layoutY="389.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field14" fill="WHITE" layoutX="171.0" layoutY="453.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field15" fill="WHITE" layoutX="274.0" layoutY="454.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field16" fill="WHITE" layoutX="376.0" layoutY="453.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field17" fill="WHITE" layoutX="126.0" layoutY="517.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field18" fill="WHITE" layoutX="274.0" layoutY="518.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fx:id="field19" fill="WHITE" layoutX="419.0" layoutY="518.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field8" fill="#88fbc3" layoutX="274.0" layoutY="213.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field9" fill="#88fbc3" layoutX="339.0" layoutY="212.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field11" fill="#ffd167" layoutX="215.0" layoutY="390.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field12" fill="#ffd167" layoutX="273.0" layoutY="390.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field13" fill="#ffd167" layoutX="330.0" layoutY="389.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field14" fill="#ffd167" layoutX="171.0" layoutY="453.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field15" fill="#ffd167" layoutX="274.0" layoutY="454.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field16" fill="#ffd167" layoutX="376.0" layoutY="453.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field17" fill="#ffd167" layoutX="126.0" layoutY="517.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field18" fill="#ffd167" layoutX="274.0" layoutY="518.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fx:id="field19" fill="#ffd167" layoutX="419.0" layoutY="518.0" onMouseClicked="#fieldClick" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
       <Button fx:id="player1" layoutX="541.0" layoutY="324.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Gracz 1" />
       <Button fx:id="player2" layoutX="650.0" layoutY="324.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Gracz 2" />
    </children>

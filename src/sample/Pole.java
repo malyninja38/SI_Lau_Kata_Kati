@@ -5,6 +5,7 @@ public class Pole {
     int numer;
     Boolean czyWolne;                   // True - wolne, False - zajęte
     int[] sasiedzi = new int[6];         // sasiedzi
+    Pionek pionek;
 
 
     public Pole(int numer, Boolean czyWolne) {

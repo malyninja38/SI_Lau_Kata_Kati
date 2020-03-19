@@ -7,6 +7,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Circle;
 
 
+/*
+circle.setFill(Color.web("#535450"));
+#88fbc3   -> #6fc397
+#ffd167   -> #c3a467
+ */
+
+
 public class Controller {
     
 
@@ -21,7 +28,9 @@ public class Controller {
     @FXML Button player1; @FXML Button player2;
 
 
-    public void PvPClick(){};
+    public void PvPClick(){
+        gra();
+    };
     public void PvAIClick(){};
     public void AIvAIClick(){};
 
@@ -80,7 +89,6 @@ public class Controller {
 
     }
 
-
     void ruchGracza1(){
 
         player1.setStyle("-fx-background-color: #32CD32; ");
@@ -100,10 +108,13 @@ public class Controller {
         stworzPionki();
         stworzPola();
 
+        ruchGracza1();
+
+        /*
         while(!koniecGry){
             ruchGracza1();
             ruchGracza2();
-        }
+        } */
 
 
     }
