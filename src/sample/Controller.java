@@ -24,6 +24,8 @@ public class Controller {
     public void PvAIClick(){};
     public void AIvAIClick(){};
 
+    public void fieldClick(){};
+
     Boolean gracz1 = false;
     Boolean gracz2 = false;
     Boolean koniecGry = false;
