@@ -1,10 +1,35 @@
 package sample;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
+
+
 public class Controller {
+
+    @FXML Button PvPbutton; @FXML Button PvAIbutton; @FXML Button AIvAIbutton;
+
+    @FXML ImageView plansza;
+
+    @FXML Circle field1; @FXML Circle field2; @FXML Circle field3; @FXML Circle field4; @FXML Circle field5; @FXML Circle field6;
+    @FXML Circle field7; @FXML Circle field8; @FXML Circle field9; @FXML Circle field10; @FXML Circle field11; @FXML Circle field12;
+    @FXML Circle field13; @FXML Circle field14; @FXML Circle field15; @FXML Circle field16; @FXML Circle field17; @FXML Circle field18; @FXML Circle field19;
+
+    @FXML Button player1; @FXML Button player2;
+
+
+    public void PvPClick(){};
+    public void PvAIClick(){};
+    public void AIvAIClick(){};
+
+    public void fieldClick(){};
 
     Boolean gracz1 = false;
     Boolean gracz2 = false;
     Boolean koniecGry = false;
+
 
     void stworzPionki(){
 
@@ -54,11 +79,18 @@ public class Controller {
 
     }
 
+
     void ruchGracza1(){
+
+        player1.setStyle("-fx-background-color: #32CD32; ");
+        player2.setStyle("-fx-background-color: #FFFFFF; ");
 
     }
 
     void ruchGracza2(){
+
+        player1.setStyle("-fx-background-color: #FFFFFF; ");
+        player2.setStyle("-fx-background-color: #32CD32; ");
 
     }
 
@@ -74,5 +106,7 @@ public class Controller {
 
 
     }
+
+
 
 }
