@@ -3,8 +3,8 @@ package GameAI.MCTS;
 import javax.naming.OperationNotSupportedException;
 
 public class Tree extends MCTSTree {
-    public Tree(int player) {
-        super(new State(player, 0, 0, null));
+    public Tree() {
+        super(new State(0, 0, null));
     }
 
     @Override
@@ -20,12 +20,15 @@ public class Tree extends MCTSTree {
         //Have to get possible moves in particular state
         //moves = controller.getMoves(currentstate.plansza)
         //Then create few new states with new moves
-        State expand = new State((currentState.getPlayer()+1)%2,0,0, currentState/*,move*/); //times few
+        State expand = new State(0,0, currentState/*,move*/); //times few
 
         //Next add new states to actual leaf of tree
         currentState.addChild(expand);
 
         //Next AI have to run simulation of every new state
+
+        //Next we go to best of new states
+        currentState = expand;
     }
 
     private void simulate(){
@@ -34,5 +37,10 @@ public class Tree extends MCTSTree {
 
     private void backProp(){
 
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

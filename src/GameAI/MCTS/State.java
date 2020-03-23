@@ -1,10 +1,10 @@
 package GameAI.MCTS;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import sample.*;
 
-class State {
-    private int player;
+class State implements Serializable {
     private int wins;
     private int plays;
     private State parent;
@@ -12,17 +12,12 @@ class State {
 
     //Ruch move
 
-    State(int player, int wins, int plays, State parent/*,Ruch move*/){
-        this.player = player;
+    State(int wins, int plays, State parent/*,Ruch move*/){
         this.wins = wins;
         this.plays = plays;
         children = new ArrayList<>();
         this.parent = parent;
         //this.move = move;
-    }
-
-    int getPlayer() {
-        return player;
     }
 
     int getWins() {
@@ -51,4 +46,18 @@ class State {
         return move;
     }*/
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("State{ ");
+        sb.append("wins=").append(wins).append(" ");
+        sb.append("plays=").append(plays).append(" ");
+        sb.append("children=").append("[");
+        for(State child : children){
+            sb.append(child);
+        }
+        sb.append("]");
+        sb.append("}");
+        return sb.toString();
+    }
 }

@@ -1,8 +1,9 @@
 package GameAI.MCTS;
 
 import javax.naming.OperationNotSupportedException;
+import java.io.Serializable;
 
-abstract class MCTSTree {
+abstract class MCTSTree implements Serializable {
 
     State root;
     State currentState;
@@ -17,4 +18,12 @@ abstract class MCTSTree {
     }
     abstract void select() throws OperationNotSupportedException;
     abstract void expand();
+
+    @Override
+    public String toString() {
+        return "MCTSTree{\n" +
+                "currentState=" + currentState +
+                "\nroot=" + root +
+                "\n}";
+    }
 }

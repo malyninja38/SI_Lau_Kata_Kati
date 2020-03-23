@@ -14,7 +14,7 @@ class DummyTree extends MCTSTree{
     @Override
     void select() {
         //get possible moves, and randomly choose one
-        State random = new State((currentState.getPlayer()+1)%2,0,0, currentState/*,move*/);
+        State random = new State(0,0, currentState/*,move*/);
         currentState.addChild(random);
         currentState = random;
     }
