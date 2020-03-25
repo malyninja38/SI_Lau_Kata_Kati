@@ -36,7 +36,7 @@ public class Controller {
     Boolean gracz2 = false;
     Boolean koniecGry = false;
 
-    ArrayList<Pole> pola = new ArrayList<Pole>(19);
+    ArrayList<Pole> pola = new ArrayList<Pole>();
 
     public void ustawKoloryPoczatkowe(){
 
@@ -60,17 +60,23 @@ public class Controller {
     public void fieldClick(MouseEvent event){
 
         Circle circle = (Circle) event.getSource();            // zwraca kliknięty field
+        System.out.println(circle);
 
         for(int i = 0; i < 19; i++){
 
-            if(pola.get(i).field == circle){
-                if(!Pole.czyWolne){
+            System.out.println(pola.get(i).field.getId());
+
+            if (pola.get(i).field.getId().equals(circle.getId())) {
+                if (!Pole.czyWolne) {
 
                     Pionek x = Pole.pionek;
                     System.out.println(Pole.numer);
 
-                    if(x.gracz == 1){ circle.setFill(Color.web("#6fc397")); }
-                    else { circle.setFill(Color.web("#c3a467"));}
+                    if (x.gracz == 1) {
+                        circle.setFill(Color.web("#6fc397"));
+                    } else {
+                        circle.setFill(Color.web("#c3a467"));
+                    }
                 }
             }
         }
@@ -133,6 +139,10 @@ public class Controller {
         Pole pole17 = new Pole(17, false, pionek16, field17); pola.add(pole17);
         Pole pole18 = new Pole(18, false, pionek17, field18); pola.add(pole18);
         Pole pole19 = new Pole(19, false, pionek18, field19); pola.add(pole19);
+
+        for(int i = 0; i < 19; i ++){
+            System.out.println(pole1.field);
+        }
 
 
 
