@@ -5,18 +5,18 @@ import javafx.scene.shape.Circle;
 
 public class Pole {
 
-    static int numer;
-    static boolean czyWolne;                   // True - wolne, False - zajęte
+    int numer;
+    boolean czyWolne;                   // True - wolne, False - zajęte
     int[] sasiedzi = new int[6];         // sasiedzi
-    static Pionek pionek;
-    public static javafx.scene.shape.Circle field;
+    Pionek pionek;
+    public javafx.scene.shape.Circle field;
 
 
     public Pole(int numer, boolean czyWolne, Pionek pionek, Circle field) {
-        Pole.numer = numer;
-        Pole.czyWolne = czyWolne;
-        Pole.pionek = pionek;
-        Pole.field = field;
+        this.numer = numer;
+        this.czyWolne = czyWolne;
+        this.pionek = pionek;
+        this.field = field;
 
         if(numer == 1) {sasiedzi[0] = 2; sasiedzi[1] = 4;}
         if(numer == 2) {sasiedzi[0] = 1; sasiedzi[1] = 2; sasiedzi[2] = 5;}

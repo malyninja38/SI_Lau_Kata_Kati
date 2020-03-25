@@ -35,6 +35,9 @@ public class Controller {
     Boolean gracz1 = false;
     Boolean gracz2 = false;
     Boolean koniecGry = false;
+    int klik = 0;
+    Circle poprzednie;
+    Circle zaznaczone;
 
     ArrayList<Pole> pola = new ArrayList<Pole>();
 
@@ -64,20 +67,97 @@ public class Controller {
 
         for(int i = 0; i < 19; i++){
 
-            System.out.println(pola.get(i).field.getId());
+            Pole pole = pola.get(i);
 
-            if (pola.get(i).field.getId().equals(circle.getId())) {
-                if (!Pole.czyWolne) {
+            if (pole.field.getId().equals(circle.getId())) {
+                if (!pole.czyWolne) {
 
-                    Pionek x = Pole.pionek;
-                    System.out.println(Pole.numer);
+                    Pionek x = pole.pionek;
+                    System.out.println(pole.numer);
 
                     if (x.gracz == 1) {
-                        circle.setFill(Color.web("#6fc397"));
+                        if((klik == 0)){
+                            circle.setFill(Color.web("#6fc397"));
+                            poprzednie = circle;
+                            klik = 1;
+                        }
+                        else{
+                            poprzednie.setFill(Color.web("#88fbc3"));
+                            circle.setFill(Color.web("#6fc397"));
+                            poprzednie = circle;
+                        }
                     } else {
-                        circle.setFill(Color.web("#c3a467"));
+                        if((klik == 0)){
+                            circle.setFill(Color.web("#c3a467"));
+                            poprzednie = circle;
+                            klik = 1;
+                        }
+                        else{
+                            poprzednie.setFill(Color.web("#ffd167"));
+                            circle.setFill(Color.web("#c3a467"));
+                            poprzednie = circle;
+                        }
                     }
+
+                    zaznaczone = circle;
                 }
+                else if(klik == 1){
+                    Circle circle3 = (Circle) event.getSource();
+
+                    Pole pole_zaznaczone = null;
+                    Pole pole_puste = null;
+
+                    for(int j = 0; j < 19; j++){
+
+                        if (pola.get(j).field.getId().equals(zaznaczone.getId())) {
+                            pole_zaznaczone = pola.get(j);
+                        }
+
+                        if (pola.get(j).field.getId().equals(circle3.getId())) {
+                            pole_puste = pola.get(j);
+                        }
+                    }    // przypisuje pola do circle
+
+                    assert pole_puste != null;
+                    assert pole_zaznaczone != null;
+                    Pionek x = pole_zaznaczone.pionek;
+
+                    if(pole_zaznaczone.przeszukajSasiadow(pole_puste.numer)){
+                        System.out.println(x.pole);
+                        System.out.println(pole_puste.numer);
+                        x.pole = pole_puste.numer;
+                        pole_puste.czyWolne = false;
+                        pole_zaznaczone.czyWolne = true;
+                        pole_puste.pionek = x;
+                        pole_zaznaczone.pionek = null;
+
+                        System.out.println("zaz" + pole_zaznaczone.field);
+                        System.out.println("pus" + pole_puste.field);
+
+                        if(x.gracz == 1){
+                            zaznaczone.setFill(Color.web("WHITE"));
+                            circle3.setFill(Color.web("#88fbc3"));
+                            poprzednie = null;
+                            gracz1 = false;
+                            ruchGracza2();
+                        }
+                        else{
+                            zaznaczone.setFill(Color.web("WHITE"));
+                            circle3.setFill(Color.web("#ffd167"));
+                            poprzednie = null;
+                            gracz2 = false;
+                            ruchGracza1();
+                        }
+
+
+                    }
+                    else{
+                        System.out.println("Nie sąsiad");
+                    }
+
+
+                }
+
             }
         }
     }
@@ -85,14 +165,19 @@ public class Controller {
     void ruchGracza1(){
 
         gracz1 = true;
-
+        klik = 0;
         player1.setStyle("-fx-background-color: #32CD32; ");
         player2.setStyle("-fx-background-color: #FFFFFF; ");
+
+        //gracz1 = false;
+
 
     }
 
     void ruchGracza2(){
 
+        gracz2 = true;
+        klik = 0;
         player1.setStyle("-fx-background-color: #FFFFFF; ");
         player2.setStyle("-fx-background-color: #32CD32; ");
 
@@ -140,9 +225,6 @@ public class Controller {
         Pole pole18 = new Pole(18, false, pionek17, field18); pola.add(pole18);
         Pole pole19 = new Pole(19, false, pionek18, field19); pola.add(pole19);
 
-        for(int i = 0; i < 19; i ++){
-            System.out.println(pole1.field);
-        }
 
 
 
