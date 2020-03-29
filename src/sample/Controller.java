@@ -41,12 +41,21 @@ public class Controller {
 
     ArrayList<Pole> pola = new ArrayList<Pole>();
 
+    public void reset(){
+        gracz1 = false;
+        gracz2 = false;
+        koniecGry = false;
+        klik = 0;
+        poprzednie = null;
+        zaznaczone = null;
+    }
+
     public void ustawKoloryPoczatkowe(){
 
         field1.setFill(Color.web("#88fbc3")); field2.setFill(Color.web("#88fbc3")); field3.setFill(Color.web("#88fbc3"));
         field4.setFill(Color.web("#88fbc3")); field5.setFill(Color.web("#88fbc3")); field6.setFill(Color.web("#88fbc3"));
         field7.setFill(Color.web("#88fbc3")); field8.setFill(Color.web("#88fbc3")); field9.setFill(Color.web("#88fbc3"));
-
+        field10.setFill(Color.web("WHITE"));
         field11.setFill(Color.web("#ffd167")); field12.setFill(Color.web("#ffd167")); field13.setFill(Color.web("#ffd167"));
         field14.setFill(Color.web("#ffd167")); field15.setFill(Color.web("#ffd167")); field16.setFill(Color.web("#ffd167"));
         field17.setFill(Color.web("#ffd167")); field18.setFill(Color.web("#ffd167")); field19.setFill(Color.web("#ffd167"));
@@ -54,6 +63,7 @@ public class Controller {
 
     public void PvPClick(){
         ustawKoloryPoczatkowe();
+        reset();
         gra();
     };
     public void PvAIClick(){};
@@ -75,7 +85,7 @@ public class Controller {
                     Pionek x = pole.pionek;
                     System.out.println(pole.numer);
 
-                    if (x.gracz == 1) {
+                    if (x.gracz == 1 && gracz1) {
                         if((klik == 0)){
                             circle.setFill(Color.web("#6fc397"));
                             poprzednie = circle;
@@ -86,7 +96,8 @@ public class Controller {
                             circle.setFill(Color.web("#6fc397"));
                             poprzednie = circle;
                         }
-                    } else {
+                    }
+                    else if (x.gracz == 2 && gracz2 ){
                         if((klik == 0)){
                             circle.setFill(Color.web("#c3a467"));
                             poprzednie = circle;
@@ -134,14 +145,14 @@ public class Controller {
                         System.out.println("zaz" + pole_zaznaczone.field);
                         System.out.println("pus" + pole_puste.field);
 
-                        if(x.gracz == 1){
+                        if(x.gracz == 1 && gracz1){
                             zaznaczone.setFill(Color.web("WHITE"));
                             circle3.setFill(Color.web("#88fbc3"));
                             poprzednie = null;
                             gracz1 = false;
                             ruchGracza2();
                         }
-                        else{
+                        else if (x.gracz == 2 && gracz2){
                             zaznaczone.setFill(Color.web("WHITE"));
                             circle3.setFill(Color.web("#ffd167"));
                             poprzednie = null;
@@ -224,8 +235,6 @@ public class Controller {
         Pole pole17 = new Pole(17, false, pionek16, field17); pola.add(pole17);
         Pole pole18 = new Pole(18, false, pionek17, field18); pola.add(pole18);
         Pole pole19 = new Pole(19, false, pionek18, field19); pola.add(pole19);
-
-
 
 
         ruchGracza1();
