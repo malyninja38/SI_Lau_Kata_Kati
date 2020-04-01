@@ -1,36 +1,26 @@
 package gameAI.mcts
 
-import java.util.concurrent.CompletableFuture
-
-internal class Simulator(root: State) : Runnable {
+internal class Simulator(root: State) {
     private val simTree: DummyTree = DummyTree(root)
     private fun move() {
         simTree.select()
     }
-
-    override fun run() {
-        val i = 0
-        CompletableFuture.runAsync {
-            try {
-                Thread.sleep(Config.ComputeTime.toLong())
-            } catch (ignored: InterruptedException) {
-            } finally {
-                doSimulate = false
-            }
-        }
+    var doSimulate = true
+    fun run() {
+        var i = 0
         while (doSimulate) {
             if (i >= Config.SimulationIterations) {
                 doSimulate = false
             }
             move()
+            i++
         }
     }
 
-    val state: State
-        get() = simTree.root
+    val gameWon:Boolean
+        get() = simTree.currentState.board.endGame
 
-    companion object {
-        var doSimulate = true
-    }
+    val rootState: State
+        get() = simTree.root
 
 }
