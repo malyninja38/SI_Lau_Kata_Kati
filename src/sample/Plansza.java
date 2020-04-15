@@ -2,7 +2,7 @@ package sample;
 
 public class Plansza {
 
-    int[][] pola = new int[7][3];
+    protected int[][] pola = new int[7][3];
 
     public Plansza() {
         int licznik = 1;

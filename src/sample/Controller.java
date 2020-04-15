@@ -32,23 +32,17 @@ public class Controller {
 
     @FXML Button player1; @FXML Button player2;
 
-    Boolean gracz1 = false;
-    Boolean gracz2 = false;
-    Boolean koniecGry = false;
+    Boolean gracz1;
+    Boolean gracz2;
+    Boolean koniecGry;
     int klik = 0;
     Circle poprzednie;
     Circle zaznaczone;
+    int pionki_gracza_1;
+    int pionki_gracza_2;
 
-    ArrayList<Pole> pola = new ArrayList<Pole>();
+    public static ArrayList<Pole> pola = new ArrayList<Pole>();
 
-    public void reset(){
-        gracz1 = false;
-        gracz2 = false;
-        koniecGry = false;
-        klik = 0;
-        poprzednie = null;
-        zaznaczone = null;
-    }
 
     public void ustawKoloryPoczatkowe(){
 
@@ -62,10 +56,19 @@ public class Controller {
     }
 
     public void PvPClick(){
+        gracz1 = false;
+        gracz2 = false;
+        koniecGry = false;
+        klik = 0;
+        poprzednie = null;
+        zaznaczone = null;
+        pola = new ArrayList<>();
+        pionki_gracza_1 = 9;
+        pionki_gracza_2 = 9;
         ustawKoloryPoczatkowe();
-        reset();
         gra();
-    };
+    }
+
     public void PvAIClick(){};
     public void AIvAIClick(){};
 
@@ -86,31 +89,34 @@ public class Controller {
                     System.out.println(pole.numer);
 
                     if (x.gracz == 1 && gracz1) {
-                        if((klik == 0)){
+                        if(klik == 0){
                             circle.setFill(Color.web("#6fc397"));
                             poprzednie = circle;
+                            zaznaczone = circle;
                             klik = 1;
                         }
                         else{
                             poprzednie.setFill(Color.web("#88fbc3"));
                             circle.setFill(Color.web("#6fc397"));
                             poprzednie = circle;
+                            zaznaczone = circle;
                         }
                     }
                     else if (x.gracz == 2 && gracz2 ){
-                        if((klik == 0)){
+                        if(klik == 0){
                             circle.setFill(Color.web("#c3a467"));
                             poprzednie = circle;
+                            zaznaczone = circle;
                             klik = 1;
                         }
                         else{
                             poprzednie.setFill(Color.web("#ffd167"));
                             circle.setFill(Color.web("#c3a467"));
                             poprzednie = circle;
+                            zaznaczone = circle;
                         }
                     }
 
-                    zaznaczone = circle;
                 }
                 else if(klik == 1){
                     Circle circle3 = (Circle) event.getSource();
@@ -162,13 +168,59 @@ public class Controller {
 
 
                     }
-                    else{
-                        System.out.println("Nie sąsiad");
+                   else if(!pole_zaznaczone.przeszukajSasiadow(pole_puste.numer)){      //jeżeli kliknięte pole nie jest sąsiadem, sprawdza czy można wykonać bicie
+                       int przeciwnik_pole = Pole.wspolnySasiad(pole_puste,pole_zaznaczone);
+                       if(przeciwnik_pole == 0)
+                           System.out.println("Nie można wykonać ruchu.");
+                       else{
+                           Pole pole_do_bicia = pola.get(przeciwnik_pole-1);
+                           if(pole_do_bicia.czyWolne || pole_do_bicia.pionek.gracz == x.gracz || !pole_zaznaczone.czyMoznaBic(pole_puste.numer))
+                               System.out.println("Nie można wykonać ruchu.");
+                           else {
+                               System.out.println("Pole z pionkiem przeciwnika: " + przeciwnik_pole);
+
+                               Circle bite_pole_plansza = pole_do_bicia.field;
+                               pole_puste.czyWolne = false;
+                               pole_puste.pionek = x;
+                               pole_zaznaczone.pionek = null;
+                               pole_zaznaczone.czyWolne = true;
+                               pole_do_bicia.pionek = null;
+                               pole_do_bicia.czyWolne = true;
+
+                               if (x.gracz == 1 && gracz1) {
+                                   zaznaczone.setFill(Color.web("WHITE"));
+                                   circle3.setFill(Color.web("#88fbc3"));
+                                   bite_pole_plansza.setFill(Color.web("WHITE"));
+                                   poprzednie = null;
+                                   zaznaczone = null;
+                                   pionki_gracza_2--;
+                                   if(pionki_gracza_2 == 0)
+                                       System.out.println("Koniec gry. Zwyciezyl gracz 1");
+                                   else{
+                                       klik = 0;
+                                       gracz1 = false;
+                                       ruchGracza2();
+                                   }
+
+                               } else if (x.gracz == 2 && gracz2) {
+                                   zaznaczone.setFill(Color.web("WHITE"));
+                                   circle3.setFill(Color.web("#ffd167"));
+                                   bite_pole_plansza.setFill(Color.web("WHITE"));
+                                   poprzednie = null;
+                                   zaznaczone = null;
+                                   pionki_gracza_1--;
+                                   if(pionki_gracza_1 == 0)
+                                       System.out.println("Koniec gry. Zwyciezyl gracz 2");
+                                   else {
+                                       klik = 0;
+                                       gracz2 = false;
+                                       ruchGracza1();
+                                   }
+                               }
+                           }
+                       }
                     }
-
-
                 }
-
             }
         }
     }
@@ -195,6 +247,8 @@ public class Controller {
     }
 
     void gra(){
+
+
 
         Pionek pionek1 = new Pionek(1, true, 1);
         Pionek pionek2 = new Pionek(1, true, 2);
