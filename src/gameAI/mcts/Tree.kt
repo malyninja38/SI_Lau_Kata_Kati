@@ -14,6 +14,7 @@ internal class Tree : MCTSTree(State(0, 0, null, Board(), Board())) {
         root.children.add(State(0,0,root, Board(),Board()))
     }
     override fun select() {
+        println("select")
         val scores = HashMap<State,Double>()
         for (child in currentState.children) {
             scores[child] = calculateUCB1(child)
@@ -27,6 +28,7 @@ internal class Tree : MCTSTree(State(0, 0, null, Board(), Board())) {
     }
 
     override fun expand() {
+        println("expand")
         //Have to get possible moves in particular state
         //moves = controller.getMoves(currentstate.plansza)
         //Then create two new states with randomly selected moves
@@ -44,6 +46,7 @@ internal class Tree : MCTSTree(State(0, 0, null, Board(), Board())) {
     }
 
     fun simulate() {
+        println("simulate")
         val sim = Simulator(currentState.copy())
         thread{
             Thread.sleep(Config.ComputeTime.toLong())

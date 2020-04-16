@@ -1,7 +1,5 @@
 package gameAI
 
-import gameAI.mcts.MCTSTree
-import gameAI.mcts.State
 import gameAI.mcts.Tree
 import sample.Plansza
 import java.io.*
@@ -27,6 +25,7 @@ class AI {
     }
 
     fun move() {
+        print("Move: ")
         when {
             monteCarlo.hasNextSelection() -> {
                 monteCarlo.select()
@@ -51,15 +50,15 @@ class AI {
     }
 
     private fun loadTree(filename: String):Tree? {
-        ObjectInputStream(FileInputStream(File(filename))).use {
-            return try{
-                val loaded = it.readObject() as Tree
-                loaded
-            } catch(e: Throwable){
-                println(e.message)
-                null
+        try {
+            ObjectInputStream(FileInputStream(File(filename))).use {
+                return it.readObject() as Tree
             }
         }
+        catch (e: Throwable) {
+            println(e.message)
+        }
+        return null
     }
 
     override fun toString(): String {
