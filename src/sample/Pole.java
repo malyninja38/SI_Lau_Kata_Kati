@@ -1,14 +1,15 @@
 package sample;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Control;
 import javafx.scene.shape.Circle;
 
 public class Pole {
 
     int numer;
-    boolean czyWolne;                   // True - wolne, False - zajęte
+    boolean czyWolne;                    // True - wolne, False - zajęte
     int[] sasiedzi = new int[6];         // sasiedzi
-    int[] bicia = new int[6];           //Pola na ktore moze sie przesunac pionek podczas bicia
+    int[] bicia = new int[6];            // Pola na ktore moze sie przesunac pionek podczas bicia
     Pionek pionek;
     public javafx.scene.shape.Circle field;
 
@@ -21,8 +22,8 @@ public class Pole {
 
         if(numer == 1) {sasiedzi[0] = 2; sasiedzi[1] = 4;
                         bicia[0] = 3; bicia[1] = 7;}
-        if(numer == 2) {sasiedzi[0] = 1; sasiedzi[1] = 2; sasiedzi[2] = 5;
-                        bicia[1] = 8;}
+        if(numer == 2) {sasiedzi[0] = 1; sasiedzi[1] = 3; sasiedzi[2] = 5;
+                        bicia[2] = 8;}
         if(numer == 3) {sasiedzi[0] = 2; sasiedzi[1] = 6;
                         bicia[0] = 1; bicia[1] = 9;}
         if(numer == 4) {sasiedzi[0] = 1; sasiedzi[1] = 5; sasiedzi[2] = 7;
@@ -79,5 +80,36 @@ public class Pole {
             if(bicia[i] == wartosc) return true;
         }
         return false;
+    }
+
+    public static int przeciwnicy(Pole pole){
+
+        int licznik = 0;
+        int index = 0;
+
+        for(int i = 0; i < pole.sasiedzi.length; i++){
+            if(pole.sasiedzi[i] == 0){
+                continue;
+            }
+            Pole sprawdzane = Controller.pola.get(pole.sasiedzi[i]-1);
+            if(sprawdzane.pionek == null){
+                continue;
+            }
+                if (sprawdzane.pionek.gracz != pole.pionek.gracz) {
+                    if(pole.bicia[i] == 0){
+                        continue;
+                    }
+                    Pole sprawdzane_puste = Controller.pola.get(pole.bicia[i]-1);
+                    if (sprawdzane_puste.czyWolne) {
+                        licznik++;
+                        index = sprawdzane_puste.numer;
+                    }
+                }
+            }
+        System.out.println(licznik);
+        System.out.println(index);
+        if(licznik == 0){ return -1; }
+        else if(licznik == 1){ return index;}
+        else {return 50;}
     }
 }
