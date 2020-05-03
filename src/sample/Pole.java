@@ -106,10 +106,46 @@ public class Pole {
                     }
                 }
             }
-        System.out.println(licznik);
-        System.out.println(index);
         if(licznik == 0){ return -1; }
         else if(licznik == 1){ return index;}
         else {return 50;}
+    }
+
+    public static Boolean obowiazek_bicia (int pionki_gracza, int nr_gracza){
+        int i = 0;
+        int nr_pola = 0;
+        do{
+            Pole sprawdzane = Controller.pola.get(nr_pola);
+            System.out.println("Sprawdzane pole: " + sprawdzane.numer);
+            if(sprawdzane.pionek == null){
+                nr_pola++;
+                continue;
+            }
+            if(sprawdzane.pionek.gracz == nr_gracza && !sprawdzane.czyWolne) {
+                System.out.println("W forze dla " + sprawdzane.numer);
+                for(int j = 0; j<sprawdzane.sasiedzi.length; j++){
+                    if(sprawdzane.sasiedzi[j] == 0){
+                        continue;
+                    }
+                    Pole sprawdzane_sasiedzi = Controller.pola.get(sprawdzane.sasiedzi[j]-1);
+                    if(sprawdzane_sasiedzi.pionek == null){
+                        continue;
+                    }
+                    if(!sprawdzane_sasiedzi.czyWolne && sprawdzane_sasiedzi.pionek.gracz != sprawdzane.pionek.gracz){
+                            if(sprawdzane.bicia[j] == 0){
+                                continue;
+                            }
+                            Pole sprawdzane_puste = Controller.pola.get(sprawdzane.bicia[j]-1);
+                            if(sprawdzane_puste.czyWolne){
+                                return true;
+                            }
+                    }
+                }
+                nr_pola++;
+                i++;
+            } else{ nr_pola++; }
+        }
+        while (i < pionki_gracza);
+        return false;
     }
 }

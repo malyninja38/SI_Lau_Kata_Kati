@@ -34,11 +34,12 @@ public class Controller {
     Boolean gracz1;
     Boolean gracz2;
     Boolean koniecGry;
+    Boolean obowiazek_bicia;
     int klik = 0;
     Circle poprzednie;
     Circle zaznaczone;
-    int pionki_gracza_1;
-    int pionki_gracza_2;
+    static int pionki_gracza_1;
+    static int pionki_gracza_2;
 
     public static ArrayList<Pole> pola = new ArrayList<Pole>();
 
@@ -194,11 +195,14 @@ public class Controller {
                     System.out.println(pole.numer);
 
                     if (x.gracz == 1 && gracz1) {
-                        if (klik == 0) {
-                            klikniete_circle.setFill(Color.web("#6fc397"));
-                            poprzednie = klikniete_circle;
-                            zaznaczone = klikniete_circle;
-                            klik = 1;
+                        if(obowiazek_bicia && Pole.przeciwnicy(pole) == -1){
+                            System.out.println("Musisz wykonać bicie");
+                        }
+                        else if (klik == 0) {
+                                klikniete_circle.setFill(Color.web("#6fc397"));
+                                poprzednie = klikniete_circle;
+                                zaznaczone = klikniete_circle;
+                                klik = 1;
                         } else {
                             poprzednie.setFill(Color.web("#88fbc3"));
                             klikniete_circle.setFill(Color.web("#6fc397"));
@@ -206,11 +210,13 @@ public class Controller {
                             zaznaczone = klikniete_circle;
                         }
                     } else if (x.gracz == 2 && gracz2) {
-                        if (klik == 0) {
-                            klikniete_circle.setFill(Color.web("#c3a467"));
-                            poprzednie = klikniete_circle;
-                            zaznaczone = klikniete_circle;
-                            klik = 1;
+                        if(obowiazek_bicia && Pole.przeciwnicy(pole) == -1){
+                            System.out.println("Musisz wykonać bicie");
+                        } else if (klik == 0) {
+                                klikniete_circle.setFill(Color.web("#c3a467"));
+                                poprzednie = klikniete_circle;
+                                zaznaczone = klikniete_circle;
+                                klik = 1;
                         } else {
                             poprzednie.setFill(Color.web("#ffd167"));
                             klikniete_circle.setFill(Color.web("#c3a467"));
@@ -239,51 +245,54 @@ public class Controller {
                     assert pole_puste != null;
                     assert pole_zaznaczone != null;
                     Pionek x = pole_zaznaczone.pionek;
-
-                    if (pole_zaznaczone.przeszukajSasiadow(pole_puste.numer)) {
-                        System.out.println(x.pole);
-                        System.out.println(pole_puste.numer);
-                        x.pole = pole_puste.numer;
-                        pole_puste.czyWolne = false;
-                        pole_zaznaczone.czyWolne = true;
-                        pole_puste.pionek = x;
-                        pole_zaznaczone.pionek = null;
-
-                        System.out.println("zaz" + pole_zaznaczone.field);
-                        System.out.println("pus" + pole_puste.field);
-
-                        if (x.gracz == 1 && gracz1) {
-                            zaznaczone.setFill(Color.web("WHITE"));
-                            puste_circle.setFill(Color.web("#88fbc3"));
-                            poprzednie = null;
-                            zaznaczone = null;
-                            gracz1 = false;
-                            klik = 0;
-                            ruchGracza2();
-                            continue;
-                        } else if (x.gracz == 2 && gracz2) {
-                            zaznaczone.setFill(Color.web("WHITE"));
-                            puste_circle.setFill(Color.web("#ffd167"));
-                            poprzednie = null;
-                            zaznaczone = null;
-                            gracz2 = false;
-                            klik = 0;
-                            ruchGracza1();
-                            continue;
+                    if(obowiazek_bicia){
+                         if(!pole_zaznaczone.przeszukajSasiadow(pole_puste.numer)) {                                                                       //jeżeli kliknięte pole nie jest sąsiadem, sprawdza czy można wykonać bicie
+                            if (((pole_zaznaczone.numer == 7 || pole_zaznaczone.numer == 9) && (pole_puste.numer == 7 || pole_puste.numer == 9))) {
+                                bicie(pole_zaznaczone, pole_puste, 8, x, puste_circle);
+                            }
+                            else  if (((pole_zaznaczone.numer == 11 || pole_zaznaczone.numer == 13) && (pole_puste.numer == 11 || pole_puste.numer == 13))) {
+                                bicie(pole_zaznaczone, pole_puste, 12, x, puste_circle);
+                            }
+                            else {
+                                int przeciwnik_pole = Pole.wspolnySasiad(pole_puste, pole_zaznaczone);
+                                if (przeciwnik_pole == 0) { System.out.println("Nie można wykonać ruchu."); }
+                                else { bicie(pole_zaznaczone, pole_puste, przeciwnik_pole, x, puste_circle); }
+                            }
                         }
+                         else{
+                             System.out.println("Należy wykonać bicie");
+                         }
                     }
-                    else if(!pole_zaznaczone.przeszukajSasiadow(pole_puste.numer)) {                                                                       //jeżeli kliknięte pole nie jest sąsiadem, sprawdza czy można wykonać bicie
-                        System.out.println("co jest");
-                        if (((pole_zaznaczone.numer == 7 || pole_zaznaczone.numer == 9) && (pole_puste.numer == 7 || pole_puste.numer == 9))) {
-                            bicie(pole_zaznaczone, pole_puste, 8, x, puste_circle);
-                        }
-                        else  if (((pole_zaznaczone.numer == 11 || pole_zaznaczone.numer == 13) && (pole_puste.numer == 11 || pole_puste.numer == 13))) {
-                            bicie(pole_zaznaczone, pole_puste, 12, x, puste_circle);
-                        }
-                        else {
-                            int przeciwnik_pole = Pole.wspolnySasiad(pole_puste, pole_zaznaczone);
-                            if (przeciwnik_pole == 0) { System.out.println("Nie można wykonać ruchu."); }
-                            else { bicie(pole_zaznaczone, pole_puste, przeciwnik_pole, x, puste_circle); }
+                    else{
+                        if (pole_zaznaczone.przeszukajSasiadow(pole_puste.numer)) {
+                            System.out.println(x.pole);
+                            System.out.println(pole_puste.numer);
+                            x.pole = pole_puste.numer;
+                            pole_puste.czyWolne = false;
+                            pole_zaznaczone.czyWolne = true;
+                            pole_puste.pionek = x;
+                            pole_zaznaczone.pionek = null;
+
+                            System.out.println("zaz" + pole_zaznaczone.field);
+                            System.out.println("pus" + pole_puste.field);
+
+                            if (x.gracz == 1 && gracz1) {
+                                zaznaczone.setFill(Color.web("WHITE"));
+                                puste_circle.setFill(Color.web("#88fbc3"));
+                                poprzednie = null;
+                                zaznaczone = null;
+                                gracz1 = false;
+                                klik = 0;
+                                ruchGracza2();
+                            } else if (x.gracz == 2 && gracz2) {
+                                zaznaczone.setFill(Color.web("WHITE"));
+                                puste_circle.setFill(Color.web("#ffd167"));
+                                poprzednie = null;
+                                zaznaczone = null;
+                                gracz2 = false;
+                                klik = 0;
+                                ruchGracza1();
+                            }
                         }
                     }
                 }
@@ -294,6 +303,13 @@ public class Controller {
     void ruchGracza1(){
 
         gracz1 = true;
+        obowiazek_bicia = Pole.obowiazek_bicia(pionki_gracza_1, 1);
+        if(obowiazek_bicia){
+            System.out.println("Obowiazek bicia: TAK");
+        }
+        else{
+            System.out.println("Obowiazek bicia: NIE");
+        }
         player1.setStyle("-fx-background-color: #32CD32; ");
         player2.setStyle("-fx-background-color: #FFFFFF; ");
 
@@ -302,7 +318,13 @@ public class Controller {
     void ruchGracza2(){
 
         gracz2 = true;
-        klik = 0;
+        obowiazek_bicia = Pole.obowiazek_bicia(pionki_gracza_2,2);
+        if(obowiazek_bicia){
+            System.out.println("Obowiazek bicia: TAK");
+        }
+        else{
+            System.out.println("Obowiazek bicia: NIE");
+        }
         player1.setStyle("-fx-background-color: #FFFFFF; ");
         player2.setStyle("-fx-background-color: #32CD32; ");
 
