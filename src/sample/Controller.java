@@ -2,6 +2,7 @@ package sample;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -30,6 +31,8 @@ public class Controller {
     @FXML Circle field13; @FXML Circle field14; @FXML Circle field15; @FXML Circle field16; @FXML Circle field17; @FXML Circle field18; @FXML Circle field19;
 
     @FXML Button player1; @FXML Button player2;
+
+    @FXML TextField text_field;
 
     Boolean gracz1;
     Boolean gracz2;
@@ -65,6 +68,7 @@ public class Controller {
         pola = new ArrayList<>();
         pionki_gracza_1 = 9;
         pionki_gracza_2 = 9;
+        text_field.setText("");
         ustawKoloryPoczatkowe();
         gra();
     }
@@ -75,7 +79,7 @@ public class Controller {
     public void bicie(Pole pole_zaznaczone, Pole pole_puste, int do_bicia, Pionek x, Circle puste_circle) throws InterruptedException {
         Pole pole_do_bicia = pola.get(do_bicia-1);
         if (pole_do_bicia.czyWolne || pole_do_bicia.pionek.gracz == x.gracz || !pole_zaznaczone.czyMoznaBic(pole_puste.numer))
-            System.out.println("Nie można wykonać ruchu. (w funkcji)");
+            text_field.setText("Nie można wykonać ruchu.");
         else {
             System.out.println("Pole z pionkiem przeciwnika: " + pole_do_bicia.numer);
 
@@ -93,7 +97,7 @@ public class Controller {
                 bite_pole_plansza.setFill(Color.web("WHITE"));
                 pionki_gracza_2--;
                 if (pionki_gracza_2 == 0)
-                    System.out.println("Koniec gry. Zwyciezyl gracz 1");
+                    text_field.setText("Koniec gry. Zwyciężył gracz 1.");
                 else {
                     pole_zaznaczone = pole_puste;
                     int kolejny_ruch = Pole.przeciwnicy(pole_zaznaczone);
@@ -102,12 +106,14 @@ public class Controller {
                         gracz1 = false;
                         poprzednie = null;
                         zaznaczone = null;
+                        text_field.setText("");
                         ruchGracza2();
                     }
                     else if(kolejny_ruch == 50){
                         poprzednie = null;
                         zaznaczone = puste_circle;
                         puste_circle.setFill(Color.web("#6fc397"));
+                        text_field.setText("");
                         ruchGracza1();
                     }
                     else{
@@ -124,7 +130,7 @@ public class Controller {
                         else {
                             int przeciwnik_pole = Pole.wspolnySasiad(pole_puste, pole_zaznaczone);
                             if (przeciwnik_pole == 0)
-                                System.out.println("Nie można wykonać ruchu.");
+                                text_field.setText("Nie można wykonać ruchu.");
                             else {
                                 bicie(pole_zaznaczone, pole_puste, przeciwnik_pole, x, puste_circle);
                             }
@@ -137,7 +143,7 @@ public class Controller {
                 bite_pole_plansza.setFill(Color.web("WHITE"));
                 pionki_gracza_1--;
                 if (pionki_gracza_1 == 0)
-                    System.out.println("Koniec gry. Zwyciezyl gracz 2");
+                    text_field.setText("Koniec gry. Zwyciężył gracz 2.");
                 else {
                     pole_zaznaczone = pole_puste;
                     int kolejny_ruch = Pole.przeciwnicy(pole_zaznaczone);
@@ -146,12 +152,14 @@ public class Controller {
                         gracz2 = false;
                         poprzednie = null;
                         zaznaczone = null;
+                        text_field.setText("");
                         ruchGracza1();
                     }
                     else if(kolejny_ruch == 50){
                         poprzednie = null;
                         zaznaczone = puste_circle;
                         puste_circle.setFill(Color.web("#c3a467"));
+                        text_field.setText("");
                         ruchGracza2();
                     }
                     else{
@@ -168,7 +176,7 @@ public class Controller {
                         else {
                             int przeciwnik_pole = Pole.wspolnySasiad(pole_puste, pole_zaznaczone);
                             if (przeciwnik_pole == 0)
-                                System.out.println("Nie można wykonać ruchu.");
+                                text_field.setText("Nie można wykonać ruchu.");
                             else {
                                 bicie(pole_zaznaczone, pole_puste, przeciwnik_pole, x, puste_circle);
                             }
@@ -196,7 +204,7 @@ public class Controller {
 
                     if (x.gracz == 1 && gracz1) {
                         if(obowiazek_bicia && Pole.przeciwnicy(pole) == -1){
-                            System.out.println("Musisz wykonać bicie");
+                            text_field.setText("Należy wykonać bicie.");
                         }
                         else if (klik == 0) {
                                 klikniete_circle.setFill(Color.web("#6fc397"));
@@ -211,7 +219,7 @@ public class Controller {
                         }
                     } else if (x.gracz == 2 && gracz2) {
                         if(obowiazek_bicia && Pole.przeciwnicy(pole) == -1){
-                            System.out.println("Musisz wykonać bicie");
+                            text_field.setText("Należy wykonać bicie.");
                         } else if (klik == 0) {
                                 klikniete_circle.setFill(Color.web("#c3a467"));
                                 poprzednie = klikniete_circle;
@@ -255,12 +263,12 @@ public class Controller {
                             }
                             else {
                                 int przeciwnik_pole = Pole.wspolnySasiad(pole_puste, pole_zaznaczone);
-                                if (przeciwnik_pole == 0) { System.out.println("Nie można wykonać ruchu."); }
+                                if (przeciwnik_pole == 0) { text_field.setText("Nie można wykonać ruchu."); }
                                 else { bicie(pole_zaznaczone, pole_puste, przeciwnik_pole, x, puste_circle); }
                             }
                         }
                          else{
-                             System.out.println("Należy wykonać bicie");
+                             text_field.setText("Należy wykonać bicie.");
                          }
                     }
                     else{
@@ -283,6 +291,7 @@ public class Controller {
                                 zaznaczone = null;
                                 gracz1 = false;
                                 klik = 0;
+                                text_field.setText("");
                                 ruchGracza2();
                             } else if (x.gracz == 2 && gracz2) {
                                 zaznaczone.setFill(Color.web("WHITE"));
@@ -291,8 +300,12 @@ public class Controller {
                                 zaznaczone = null;
                                 gracz2 = false;
                                 klik = 0;
+                                text_field.setText("");
                                 ruchGracza1();
                             }
+                        }
+                        else{
+                            text_field.setText("Nie można wykonać ruchu.");
                         }
                     }
                 }
@@ -305,10 +318,10 @@ public class Controller {
         gracz1 = true;
         obowiazek_bicia = Pole.obowiazek_bicia(pionki_gracza_1, 1);
         if(obowiazek_bicia){
-            System.out.println("Obowiazek bicia: TAK");
+            System.out.println("Obowiązek bicia: TAK");
         }
         else{
-            System.out.println("Obowiazek bicia: NIE");
+            System.out.println("Obowiązek bicia: NIE");
         }
         player1.setStyle("-fx-background-color: #32CD32; ");
         player2.setStyle("-fx-background-color: #FFFFFF; ");
