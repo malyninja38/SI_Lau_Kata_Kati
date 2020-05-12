@@ -1,14 +1,14 @@
 package sample;
 
-import javafx.fxml.FXML;
+
 import javafx.scene.shape.Circle;
 
 public class Pole {
 
     int numer;
-    boolean czyWolne;                   // True - wolne, False - zajęte
+    boolean czyWolne;                    // True - wolne, False - zajęte
     int[] sasiedzi = new int[6];         // sasiedzi
-    int[] bicia = new int[6];           //Pola na ktore moze sie przesunac pionek podczas bicia
+    int[] bicia = new int[6];            // Pola na ktore moze sie przesunac pionek podczas bicia
     Pionek pionek;
     public javafx.scene.shape.Circle field;
 
@@ -21,8 +21,8 @@ public class Pole {
 
         if(numer == 1) {sasiedzi[0] = 2; sasiedzi[1] = 4;
                         bicia[0] = 3; bicia[1] = 7;}
-        if(numer == 2) {sasiedzi[0] = 1; sasiedzi[1] = 2; sasiedzi[2] = 5;
-                        bicia[1] = 8;}
+        if(numer == 2) {sasiedzi[0] = 1; sasiedzi[1] = 3; sasiedzi[2] = 5;
+                        bicia[2] = 8;}
         if(numer == 3) {sasiedzi[0] = 2; sasiedzi[1] = 6;
                         bicia[0] = 1; bicia[1] = 9;}
         if(numer == 4) {sasiedzi[0] = 1; sasiedzi[1] = 5; sasiedzi[2] = 7;
@@ -78,6 +78,73 @@ public class Pole {
         for(int i = 0; i < bicia.length; i++){
             if(bicia[i] == wartosc) return true;
         }
+        return false;
+    }
+
+    public static int przeciwnicy(Pole pole){
+
+        int licznik = 0;
+        int index = 0;
+
+        for(int i = 0; i < pole.sasiedzi.length; i++){
+            if(pole.sasiedzi[i] == 0){
+                continue;
+            }
+            Pole sprawdzane = Controller.pola.get(pole.sasiedzi[i]-1);
+            if(sprawdzane.pionek == null){
+                continue;
+            }
+                if (sprawdzane.pionek.gracz != pole.pionek.gracz) {
+                    if(pole.bicia[i] == 0){
+                        continue;
+                    }
+                    Pole sprawdzane_puste = Controller.pola.get(pole.bicia[i]-1);
+                    if (sprawdzane_puste.czyWolne) {
+                        licznik++;
+                        index = sprawdzane_puste.numer;
+                    }
+                }
+            }
+        if(licznik == 0){ return -1; }
+        else if(licznik == 1){ return index;}
+        else {return 50;}
+    }
+
+    public static Boolean obowiazek_bicia (int pionki_gracza, int nr_gracza){
+        int i = 0;
+        int nr_pola = 0;
+        do{
+            Pole sprawdzane = Controller.pola.get(nr_pola);
+            //System.out.println("Sprawdzane pole: " + sprawdzane.numer);
+            if(sprawdzane.pionek == null){
+                nr_pola++;
+                continue;
+            }
+            if(sprawdzane.pionek.gracz == nr_gracza && !sprawdzane.czyWolne) {
+                //System.out.println("W forze dla " + sprawdzane.numer);
+                for(int j = 0; j<sprawdzane.sasiedzi.length; j++){
+                    if(sprawdzane.sasiedzi[j] == 0){
+                        continue;
+                    }
+                    Pole sprawdzane_sasiedzi = Controller.pola.get(sprawdzane.sasiedzi[j]-1);
+                    if(sprawdzane_sasiedzi.pionek == null){
+                        continue;
+                    }
+                    if(!sprawdzane_sasiedzi.czyWolne && sprawdzane_sasiedzi.pionek.gracz != sprawdzane.pionek.gracz){
+                            if(sprawdzane.bicia[j] == 0){
+                                continue;
+                            }
+                            Pole sprawdzane_puste = Controller.pola.get(sprawdzane.bicia[j]-1);
+                            if(sprawdzane_puste.czyWolne){
+                                return true;
+                            }
+                    }
+                }
+                nr_pola++;
+                i++;
+            } else{ nr_pola++; }
+        }
+        while (i < pionki_gracza);
         return false;
     }
 }
