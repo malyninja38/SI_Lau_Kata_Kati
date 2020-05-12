@@ -1,2 +1,6 @@
 /.idea/
 /out/
+/tree.bin
+/lib/
+**/.DS_Store
+/tree.properties
