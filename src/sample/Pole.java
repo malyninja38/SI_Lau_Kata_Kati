@@ -1,7 +1,6 @@
 package sample;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.Control;
+
 import javafx.scene.shape.Circle;
 
 public class Pole {
@@ -116,13 +115,13 @@ public class Pole {
         int nr_pola = 0;
         do{
             Pole sprawdzane = Controller.pola.get(nr_pola);
-            System.out.println("Sprawdzane pole: " + sprawdzane.numer);
+            //System.out.println("Sprawdzane pole: " + sprawdzane.numer);
             if(sprawdzane.pionek == null){
                 nr_pola++;
                 continue;
             }
             if(sprawdzane.pionek.gracz == nr_gracza && !sprawdzane.czyWolne) {
-                System.out.println("W forze dla " + sprawdzane.numer);
+                //System.out.println("W forze dla " + sprawdzane.numer);
                 for(int j = 0; j<sprawdzane.sasiedzi.length; j++){
                     if(sprawdzane.sasiedzi[j] == 0){
                         continue;

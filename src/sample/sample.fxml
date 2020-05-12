@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Circle?>
 
+<?import java.util.ArrayList?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
       <Button fx:id="PvPbutton" layoutX="515.0" layoutY="104.0" mnemonicParsing="false" onAction="#PvPClick" prefHeight="25.0" prefWidth="234.0" text="Gracz vs Gracz" />
@@ -38,5 +39,28 @@
       <Button fx:id="player1" layoutX="541.0" layoutY="324.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Gracz 1" />
       <Button fx:id="player2" layoutX="650.0" layoutY="324.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="72.0" text="Gracz 2" />
       <TextField fx:id="text_field" layoutX="515.0" layoutY="422.0" prefHeight="25.0" prefWidth="234.0" />
+      <fx:define>
+         <ArrayList fx:id = "fields">
+            <fx:reference source="field1"/>
+            <fx:reference source="field2"/>
+            <fx:reference source="field3"/>
+            <fx:reference source="field4"/>
+            <fx:reference source="field5"/>
+            <fx:reference source="field6"/>
+            <fx:reference source="field7"/>
+            <fx:reference source="field8"/>
+            <fx:reference source="field9"/>
+            <fx:reference source="field10"/>
+            <fx:reference source="field11"/>
+            <fx:reference source="field12"/>
+            <fx:reference source="field13"/>
+            <fx:reference source="field14"/>
+            <fx:reference source="field15"/>
+            <fx:reference source="field16"/>
+            <fx:reference source="field17"/>
+            <fx:reference source="field18"/>
+            <fx:reference source="field19"/>
+         </ArrayList>
+      </fx:define>
    </children>
 </Pane>
