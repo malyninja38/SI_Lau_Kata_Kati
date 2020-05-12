@@ -24,4 +24,13 @@ class Board() : Plansza(), Serializable {
     }
     val possibleMoves: List<Board>
         get() = listOf(Board())
+
+    override fun equals(other: Any?):Boolean{
+        return when(other){
+            is Board -> {
+                this.pola!!.contentEquals(other.pola)
+            }
+            else -> false
+        }
+    }
 }

@@ -5,6 +5,8 @@ import sample.Plansza
 import kotlin.random.Random
 
 internal class DummyTree(root: State) : MCTSTree(root) {
+    private var identifier = root.id+1
+
     override fun hasNextSelection(): Boolean {
         return true
     }
@@ -12,7 +14,7 @@ internal class DummyTree(root: State) : MCTSTree(root) {
     override fun select() {
         //get possible moves, and randomly choose one
         val board = currentState.board.possibleMoves.random()
-        val random = State(0, 0, currentState /*,move*/,board, currentState.board.differences(board))
+        val random = State(identifier++, 0, 0, currentState /*,move*/,board, currentState.board.differences(board))
         currentState.children.add(random)
         currentState = random
     }

@@ -6,13 +6,14 @@ import java.util.*
 import kotlin.concurrent.thread
 import kotlin.concurrent.timer
 
-internal class Tree : MCTSTree(State(0, 0, null, Board(), Board())) {
+internal class Tree : MCTSTree(State(Config.identifier++,0, 0, null, Board(), Board())) {
     init{
         //there are only 3 posibilities for first move, so
-        root.children.add(State(0,0,root, Board(),Board()))
-        root.children.add(State(0,0,root, Board(),Board()))
-        root.children.add(State(0,0,root, Board(),Board()))
+        root.children.add(State(Config.identifier++,0,0,root, Board(),Board()))
+        root.children.add(State(Config.identifier++,0,0,root, Board(),Board()))
+        root.children.add(State(Config.identifier++,0,0,root, Board(),Board()))
     }
+
     override fun select() {
         println("select")
         val scores = HashMap<State,Double>()
@@ -23,8 +24,15 @@ internal class Tree : MCTSTree(State(0, 0, null, Board(), Board())) {
     }
 
     override fun select(move: Board) {
-        val newState = State(0,0,currentState,move,currentState.board.differences(move))
+        for (child in currentState.children){
+            if (child.board == move) {
+                currentState = child
+                return
+            }
+        }
+        val newState = State(Config.identifier++, 0,0,currentState,move,currentState.board.differences(move))
         currentState.children.add(newState)
+        currentState = newState
     }
 
     override fun expand() {
@@ -33,8 +41,8 @@ internal class Tree : MCTSTree(State(0, 0, null, Board(), Board())) {
         //moves = controller.getMoves(currentstate.plansza)
         //Then create two new states with randomly selected moves
 
-        val left = State(0, 0, currentState, Board(), Board())
-        val right = State(0, 0, currentState, Board(), Board())
+        val left = State(Config.identifier++, 0, 0, currentState, Board(), Board())
+        val right = State(Config.identifier++, 0, 0, currentState, Board(), Board())
 
         //Next add new states to actual leaf of tree
         currentState.children.add(left)
@@ -56,6 +64,8 @@ internal class Tree : MCTSTree(State(0, 0, null, Board(), Board())) {
         thread{
             sim.run()
         }
+        println("Simulation ended with result: ${if(sim.gameWon) "won" else "lost"}")
+        println(sim.gameWon)
         currentState.updateState(sim.gameWon)
     }
 }

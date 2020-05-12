@@ -4,6 +4,7 @@ import gameAI.Board
 import java.io.Serializable
 
 internal class State(
+        private val _id: Int,
         private var _wins: Int,
         private var _plays: Int,
         private val _parent: State?,
@@ -11,6 +12,9 @@ internal class State(
         private val _changes : Board
 ) : Serializable {
     private val _children = mutableListOf<State>()
+
+    internal val id: Int
+        get() = _id
 
     internal val wins: Int
         get() = _wins
@@ -34,24 +38,29 @@ internal class State(
     }
 
     fun copy(
+            _id : Int = this._id,
             _wins: Int = this._wins,
             _plays: Int = this._plays,
             _parent: State? = this._parent,
             _board : Board = this._board,
             _changes : Board = this._changes
-    ): State = State(_wins,_plays,_parent,_board,_changes)
+    ): State = State(_id, _wins,_plays,_parent,_board,_changes)
 
-    override fun toString(): String {
+    fun print(tabs:String): String {
         val sb = StringBuilder()
-        sb.append("State{ ")
+        sb.append(tabs).append("State{")
+        sb.append("id=").append(_id).append(" ")
         sb.append("wins=").append(_wins).append(" ")
         sb.append("plays=").append(_plays).append(" ")
         sb.append("children=").append("[")
         for (child in _children) {
-            sb.append(child)
+            sb.append("\n").append(child.print(tabs+"\t"))
+        }
+        if(_children.size > 0){
+            sb.append("\n").append(tabs)
         }
         sb.append("]")
-        sb.append("}")
+        sb.append("} ")
         return sb.toString()
     }
 }

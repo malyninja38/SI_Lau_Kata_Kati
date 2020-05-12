@@ -31,8 +31,8 @@ internal abstract class MCTSTree(internal val root: State) : Serializable {
     abstract fun expand()
     override fun toString(): String {
         return "MCTSTree{\n" +
-                "currentState=" + currentState +
-                "\nroot=" + root +
+                "currentStateId= " + currentState.id +
+                "\nroot=" + root.print("") +
                 "\n}"
     }
 
