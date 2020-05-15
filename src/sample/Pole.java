@@ -5,11 +5,11 @@ import javafx.scene.shape.Circle;
 
 public class Pole {
 
-    int numer;
+    public int numer;
     boolean czyWolne;                    // True - wolne, False - zajęte
-    int[] sasiedzi = new int[6];         // sasiedzi
+    public int[] sasiedzi = new int[6];         // sasiedzi
     int[] bicia = new int[6];            // Pola na ktore moze sie przesunac pionek podczas bicia
-    Pionek pionek;
+    public Pionek pionek;
     public javafx.scene.shape.Circle field;
 
 

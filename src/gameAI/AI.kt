@@ -2,24 +2,27 @@ package gameAI
 
 import gameAI.mcts.Config
 import gameAI.mcts.Tree
+import javafx.scene.shape.Circle
 import sample.Controller
-import sample.Plansza
 import sample.Pole
 import java.io.*
 import java.util.*
+import kotlin.collections.ArrayList
 
-class AI {
+class AI : Runnable{
     private var monteCarlo: Tree
-    private var stateHistory: MutableList<Plansza> = mutableListOf()
+    private var stateHistory: MutableList<ArrayList<Pole>> = mutableListOf()
     private val controller : Controller
 
-    constructor(controller: Controller) {
+
+    constructor(controller: Controller, playerNumber : Int) {
         monteCarlo = Tree()
         stateHistory.add(monteCarlo.currentState.board)
         this.controller = controller
+        AI.playerNumber = playerNumber
     }
 
-    constructor(controller: Controller, filename: String) {
+    constructor(controller: Controller, playerNumber: Int, filename: String) {
         monteCarlo = when(val temp = loadTree(filename)){
             null -> Tree()
             else -> {
@@ -29,28 +32,32 @@ class AI {
         monteCarlo.currentState = monteCarlo.root
         stateHistory.add(monteCarlo.currentState.board)
         this.controller = controller
+        AI.playerNumber = playerNumber
     }
 
     //Ma zwracać źródłowe i docelowe Circle, albo pole ruchu.
-    fun move() {
+    fun move(): Pair<Circle, Circle>{
         print("Move: ")
-        when {
+        return when {
             monteCarlo.hasNextSelection() -> {
                 monteCarlo.select()
             }
-            monteCarlo.currentWasVisited() -> {
-                monteCarlo.expand()
-            }
             else -> {
-                monteCarlo.simulate()
+                monteCarlo.expand()
             }
         }
     }
 
-    //TODO:Update method in order to set new state of board to 'currentState'
+    fun update(board: ArrayList<Pole>){
+        val boardClone = ArrayList<Pole>()
+        for(field in board){
+            boardClone.add(field)
+        }
+        monteCarlo.currentState.board = boardClone
+    }
 
-    fun move(move: Board){
-        monteCarlo.select(move)
+    fun move(board: ArrayList<Pole>, move: Pair<Circle,Circle>){
+        monteCarlo.select(board, move)
     }
 
     private fun saveTree(filename: String) {
@@ -59,6 +66,15 @@ class AI {
         props.store(FileOutputStream("tree.properties"),"")
         ObjectOutputStream(FileOutputStream(File(filename))).use {
             it.writeObject(monteCarlo)
+        }
+    }
+
+    override fun run(){
+        while(Controller.koniecGry){
+            if(Controller.obecny_gracz == playerNumber){
+                move()
+            }
+            Thread.sleep(100)
         }
     }
 
@@ -94,11 +110,12 @@ class AI {
     }
 
     companion object {
+        internal var playerNumber : Int = 0
         @JvmStatic
         fun main(args: Array<String>) {
             val controller = Controller()
-            val gameAI = AI(controller, "tree.bin")
-//            val gameAI = AI()
+            val gameAI = AI(controller,2, "tree.bin")
+//            val gameAI = AI(controller,2)
             println(gameAI)
             controller.PvPClick()
             loop@ while(true){
