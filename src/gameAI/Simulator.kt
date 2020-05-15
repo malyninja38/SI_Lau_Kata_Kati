@@ -1,7 +1,12 @@
-package gameAI.mcts
+package gameAI
+
+import gameAI.mcts.Config
+import gameAI.mcts.DummyTree
+import gameAI.mcts.State
 
 internal class Simulator(root: State) {
     private val simTree: DummyTree = DummyTree(root)
+    private val controller = SimulatedController()
     private fun move() {
         simTree.select()
     }
@@ -18,7 +23,7 @@ internal class Simulator(root: State) {
     }
 
     val gameWon:Boolean
-        get() = simTree.currentState.board.endGame
+        get() = controller.koniecGry
 
     val rootState: State
         get() = simTree.root

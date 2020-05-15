@@ -1,7 +1,9 @@
 package gameAI.mcts
 
-import gameAI.Board
+import javafx.scene.shape.Circle
 import sample.Plansza
+import sample.Pole
+import java.util.ArrayList
 import kotlin.random.Random
 
 internal class DummyTree(root: State) : MCTSTree(root) {
@@ -11,17 +13,20 @@ internal class DummyTree(root: State) : MCTSTree(root) {
         return true
     }
 
-    override fun select() {
+    override fun select() : Pair<Circle, Circle>{
         //get possible moves, and randomly choose one
-        val board = currentState.board.possibleMoves.random()
-        val random = State(identifier++, 0, 0, currentState /*,move*/,board, currentState.board.differences(board))
+        //TODO: implement
+        val random = State(identifier++, 0, 0, currentState /*,move*/,currentState.board, currentState.move)
         currentState.children.add(random)
         currentState = random
+        return currentState.move
     }
 
-    override fun select(move: Board) {
+    override fun select(board: ArrayList<Pole>, move: Pair<Circle, Circle>) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun expand() {}
+    override fun expand() : Pair<Circle, Circle>{
+        return Pair(Circle(), Circle())
+    }
 }
