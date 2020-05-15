@@ -10,7 +10,7 @@ public class Pole {
     public int[] sasiedzi = new int[6];         // sasiedzi
     int[] bicia = new int[6];            // Pola na ktore moze sie przesunac pionek podczas bicia
     public Pionek pionek;
-    public javafx.scene.shape.Circle field;
+    public Circle field;
 
 
     public Pole(int numer, boolean czyWolne, Pionek pionek, Circle field) {

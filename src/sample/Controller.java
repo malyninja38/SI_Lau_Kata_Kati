@@ -46,7 +46,7 @@ public class Controller {
 
     public static int obecny_gracz;
     public static Boolean koniecGry;
-    public static Boolean obowiazek_bicia;
+    static Boolean obowiazek_bicia;
     int klik = 0;
     public Circle poprzednie;
     public Circle zaznaczone;
