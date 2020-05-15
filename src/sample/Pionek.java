@@ -13,4 +13,8 @@ public class Pionek {
         this.stan = stan;
         this.pole = pole;
     }
+
+    public int getGracz() {
+        return gracz;
+    }
 }

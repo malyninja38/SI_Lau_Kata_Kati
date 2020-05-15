@@ -44,12 +44,12 @@ public class Controller {
     @FXML
     TextField text_field;
 
-    static int obecny_gracz;
-    static Boolean koniecGry;
+    public static int obecny_gracz;
+    public static Boolean koniecGry;
     static Boolean obowiazek_bicia;
     int klik = 0;
-    Circle poprzednie;
-    Circle zaznaczone;
+    public Circle poprzednie;
+    public Circle zaznaczone;
     static int pionki_gracza_1;
     static int pionki_gracza_2;
     static int zwyciezca;
