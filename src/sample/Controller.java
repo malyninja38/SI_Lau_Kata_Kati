@@ -251,12 +251,14 @@ public class Controller {
                     puste_circle.setFill(Color.web("#88fbc3"));
                     klik = 0;
                     text_field.setText("");
+                    poprzednie = null;
                     ruchGracza2();
                 } else if (x.gracz == 2 && obecny_gracz == 2) {
                     zaznaczone.setFill(Color.web("WHITE"));
                     puste_circle.setFill(Color.web("#ffd167"));
                     klik = 0;
                     text_field.setText("");
+                    poprzednie = null;
                     ruchGracza1();
                 }
             } else {
@@ -331,7 +333,6 @@ public class Controller {
             }
 
         } else if (klik == 1) {
-            poprzednie = null;
             Circle puste_circle = (Circle) event.getSource();
             ruch(zaznaczone, puste_circle);
             }
