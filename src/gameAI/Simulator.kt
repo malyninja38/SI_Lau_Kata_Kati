@@ -5,9 +5,6 @@ import game.SimGame
 import gameAI.mcts.Config
 import gameAI.mcts.State
 import gameAI.mcts.Tree
-import javafx.scene.shape.Circle
-import sample.Pole
-import kotlin.math.min
 
 class Simulator(player1: Player, player2: Player, root: State, matrix: Array<IntArray>, private val currentPlayer: Player) : ArtificialIntelligence(Tree(root)) {
 

@@ -43,10 +43,11 @@ open class Game(player1: Player, player2: Player, private val controller: Contro
     }
 
     override fun run() {
+        var lastMoveWasCapture = false
         while (!gameOver) {
             checkCaptureObligation()
             controller.zmienGracza(currentPlayer!!.number)
-            ruch@ while (true) {
+            ruch@while (true) {
                 controller.koloruj(matrix)
                 val nextMove = when (currentPlayer!!.type) {
                     PlayerType.AI -> {
@@ -74,6 +75,7 @@ open class Game(player1: Player, player2: Player, private val controller: Contro
                     }
                 }
                 try {
+                    lastMoveWasCapture = captureRequired
                     move(nextMove.first, nextMove.second)
                     if (getOponent(currentPlayer)?.type == PlayerType.AI) {
                         ai?.setEnemyMove(matrix.hashCode(), nextMove)
@@ -92,7 +94,9 @@ open class Game(player1: Player, player2: Player, private val controller: Contro
                 catch (e: Throwable){
                     println("Game.kt:90 - " + e.localizedMessage)
                 }
-                break@ruch
+                checkCaptureObligation()
+                if(!(lastMoveWasCapture && captureRequired))
+                    break@ruch
             }
             checkGameOver()
             currentPlayer = getOponent(currentPlayer)
