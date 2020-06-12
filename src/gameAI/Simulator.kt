@@ -1,31 +1,65 @@
 package gameAI
 
+import game.Player
+import game.SimGame
 import gameAI.mcts.Config
-import gameAI.mcts.DummyTree
 import gameAI.mcts.State
+import gameAI.mcts.Tree
+import javafx.scene.shape.Circle
+import sample.Pole
+import kotlin.math.min
 
-internal class Simulator(root: State) {
-    private val simTree: DummyTree = DummyTree(root)
-    private val controller = SimulatedController()
-    private fun move() {
-        simTree.select()
-    }
+class Simulator(player1: Player, player2: Player, root: State, matrix: Array<IntArray>, private val currentPlayer: Player) : ArtificialIntelligence(Tree(root)) {
+
+    private val game = SimGame(player1, player2, matrix)
+    private var identifier = root.id + 1
     var doSimulate = true
+
+    init {
+        game.currentPlayer = currentPlayer
+        game.start()
+        game.checkCaptureObligation()
+        game.move(root.move.first,root.move.second)
+        game.currentPlayer = game.getOponent(currentPlayer)
+    }
+
+    private fun expand(): Pair<Int, Int> {
+        val moves = game.getPossibleMoves()
+        val random = State(
+                identifier++,
+                0,
+                0,
+                monteCarlo.currentState,
+                game.matrix.hashCode(),
+                moves.shuffled()[0]
+        )
+        monteCarlo.currentState.children.add(random)
+        monteCarlo.currentState = random
+        return monteCarlo.currentState.move
+    }
+
+    override fun move(startFields: Array<Int>): Pair<Int, Int> {
+        return expand()
+    }
+
     fun run() {
         var i = 0
         while (doSimulate) {
             if (i >= Config.SimulationIterations) {
                 doSimulate = false
             }
-            move()
+            game.checkCaptureObligation()
+            val movePair = move(arrayOf())
+            game.move(movePair.first, movePair.second)
+            game.currentPlayer = game.getOponent(currentPlayer)
             i++
         }
     }
 
-    val gameWon:Boolean
-        get() = controller.koniecGry
+    val gameWon: Boolean
+        get() = game.winner == currentPlayer.number
 
-    val rootState: State
-        get() = simTree.root
-
+    override fun setEnemyMove(boardHashCode: Int, move: Pair<Int, Int>) {
+        TODO("Actually does nothing")
+    }
 }

@@ -1,17 +1,14 @@
 package gameAI.mcts
 
-import javafx.scene.shape.Circle
-import sample.Pole
 import java.io.Serializable
-import java.util.ArrayList
 
-internal class State(
+class State(
         private val _id: Int,
         private var _wins: Int,
         private var _plays: Int,
         private val _parent: State?,
-        private var _board : ArrayList<Pole>,
-        private val _moveCircles : Pair<Circle, Circle>?
+        private var _boardHashCode : Int,
+        private val _moveCircles : Pair<Int, Int>?
 ) : Serializable {
     private val _children = mutableListOf<State>()
 
@@ -30,13 +27,13 @@ internal class State(
     internal val parent: State?
         get() = _parent
 
-    internal var board : ArrayList<Pole>
-        get() = _board
+    internal var boardHashCode : Int
+        get() = _boardHashCode
         set(newBoard) {
-            _board = newBoard
+            _boardHashCode = newBoard
         }
 
-    internal val move : Pair<Circle, Circle>
+    internal val move : Pair<Int, Int>
         get() = _moveCircles!!
 
     internal fun updateState(gameWon: Boolean) {
@@ -50,8 +47,8 @@ internal class State(
             _wins: Int = this._wins,
             _plays: Int = this._plays,
             _parent: State? = this._parent,
-            _board : ArrayList<Pole> = this._board,
-            _moveCircles: Pair<Circle, Circle>? = this._moveCircles
+            _board : Int = this._boardHashCode,
+            _moveCircles: Pair<Int, Int>? = this._moveCircles
     ): State = State(_id, _wins,_plays,_parent,_board, _moveCircles)
 
     fun print(tabs:String): String {
