@@ -1,5 +1,6 @@
 package game
 
+import java.security.MessageDigest
 import kotlin.math.abs
 
 abstract class GameCore(val player1: Player, val player2: Player) {
@@ -8,11 +9,30 @@ abstract class GameCore(val player1: Player, val player2: Player) {
     var captureRequired = false
     var captureMoves: MutableList<Pair<Int, Int>> = mutableListOf()
     var currentPlayer: Player? = null
-    var winner = 0
+    var winner :Player? = null
+
+    internal fun generateBoardHash(): String{
+        val hexChars = "0123456789ABCDEF"
+        val sb = StringBuilder()
+        for(row in matrix){
+            for(value in row){
+                sb.append(value)
+            }
+        }
+        val bytes = MessageDigest.getInstance("SHA-1").digest(sb.toString().toByteArray())
+
+        val result = StringBuilder(bytes.size * 2)
+        bytes.forEach {
+            val i = it.toInt()
+            result.append(hexChars[i shr 4 and 0x0f])
+            result.append(hexChars[i and 0x0f])
+        }
+        return result.toString()
+    }
 
     internal fun prepareGame() {
         gameOver = false
-        winner = 0
+        winner = null
     }
 
     @JvmOverloads
@@ -163,11 +183,11 @@ abstract class GameCore(val player1: Player, val player2: Player) {
         when {
             getPlayerFields(1).isEmpty() -> {
                 gameOver = true
-                winner = 2
+                winner = player1
             }
             getPlayerFields(2).isEmpty() -> {
                 gameOver = true
-                winner = 1
+                winner = player2
             }
         }
 
@@ -237,6 +257,7 @@ abstract class GameCore(val player1: Player, val player2: Player) {
                 }
             }
         }
+        checkGameOver()
     }
 
     private fun capture(startField: Int, endField: Int, middleField: Int) {

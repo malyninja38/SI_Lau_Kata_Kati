@@ -5,7 +5,7 @@ import java.io.Serializable
 class Tree(internal val root: State) : Serializable {
     var currentState: State = root
 
-    constructor(boardHashCode: Int) :
+    constructor(boardHashCode: String) :
             this(State(Config.identifier++, 0, 0, null, boardHashCode, null))
 
     internal fun currentWasVisited(): Boolean {

@@ -9,7 +9,7 @@ import kotlin.random.Random
 open class Game(player1: Player, player2: Player, private val controller: Controller) : GameCore(player1, player2), Runnable {
 
     private var ai: ArtificialIntelligence? = null
-
+    private var startPlayer : Player? = null
     private var gameThread: Thread? = null
 
     init {
@@ -21,8 +21,8 @@ open class Game(player1: Player, player2: Player, private val controller: Contro
     override fun start() {
         prepareBoard()
         prepareGame()
-        currentPlayer = if (Random.nextInt(1, 3) == 1) player1 else player2
-        when (currentPlayer) {
+        startPlayer = if (Random.nextInt(1, 3) == 1) player1 else player2
+        when (startPlayer) {
             player1 -> {
                 ai?.filename = "p1start.bin"
                 ai?.load()
@@ -32,6 +32,7 @@ open class Game(player1: Player, player2: Player, private val controller: Contro
                 ai?.load()
             }
         }
+        currentPlayer = startPlayer
         gameThread = thread {
             try {
                 run()
@@ -40,10 +41,12 @@ open class Game(player1: Player, player2: Player, private val controller: Contro
                 println("Game.kt:40 - " + e.localizedMessage)
             }*/
         }
+
     }
 
     override fun run() {
         var lastMoveWasCapture = false
+        var lastCapturePawn = -1
         while (!gameOver) {
             checkCaptureObligation()
             controller.zmienGracza(currentPlayer!!.number)
@@ -76,13 +79,15 @@ open class Game(player1: Player, player2: Player, private val controller: Contro
                 }
                 try {
                     lastMoveWasCapture = captureRequired
+                    if(lastMoveWasCapture)
+                        lastCapturePawn = nextMove.second
                     move(nextMove.first, nextMove.second)
                     if (getOponent(currentPlayer)?.type == PlayerType.AI) {
-                        ai?.setEnemyMove(matrix.hashCode(), nextMove)
+                        ai?.setEnemyMove(generateBoardHash(), nextMove)
                     }
                     controller.wyswietlWiadomosc("")
                     if(currentPlayer?.type == PlayerType.AI){
-                        ai?.update(matrix)
+                        ai?.update(generateBoardHash())
                     }
                 } catch (e: InvalidMoveException) {
                     controller.wyswietlWiadomosc("Nie można wykonać ruchu")
@@ -95,15 +100,16 @@ open class Game(player1: Player, player2: Player, private val controller: Contro
                     println("Game.kt:90 - " + e.localizedMessage)
                 }
                 checkCaptureObligation()
-                if(!(lastMoveWasCapture && captureRequired))
+                if(!(lastMoveWasCapture && captureRequired && captureMoves.find { it.first == lastCapturePawn } is Pair<Int, Int>))
                     break@ruch
             }
-            checkGameOver()
             currentPlayer = getOponent(currentPlayer)
             Thread.sleep(100)
         }
         controller.koloruj(matrix)
-        controller.wyswietlWiadomosc("Koniec gry! Wygrał gracz $winner");
+        controller.wyswietlWiadomosc("Koniec gry! Wygrał gracz ${winner!!.number}")
+        ai?.updateState(winner == startPlayer && startPlayer?.type == PlayerType.AI)
+        ai?.save()
     }
 
     fun close() {

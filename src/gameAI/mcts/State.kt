@@ -7,7 +7,7 @@ class State(
         private var _wins: Int,
         private var _plays: Int,
         private val _parent: State?,
-        private var _boardHashCode : Int,
+        private var _boardHashCode : String,
         private val _moveCircles : Pair<Int, Int>?
 ) : Serializable {
     private val _children = mutableListOf<State>()
@@ -27,7 +27,7 @@ class State(
     internal val parent: State?
         get() = _parent
 
-    internal var boardHashCode : Int
+    internal var boardHashCode : String
         get() = _boardHashCode
         set(newBoard) {
             _boardHashCode = newBoard
@@ -47,7 +47,7 @@ class State(
             _wins: Int = this._wins,
             _plays: Int = this._plays,
             _parent: State? = this._parent,
-            _board : Int = this._boardHashCode,
+            _board : String = this._boardHashCode,
             _moveCircles: Pair<Int, Int>? = this._moveCircles
     ): State = State(_id, _wins,_plays,_parent,_board, _moveCircles)
 
@@ -57,6 +57,7 @@ class State(
         sb.append("id=").append(_id).append(" ")
         sb.append("wins=").append(_wins).append(" ")
         sb.append("plays=").append(_plays).append(" ")
+        sb.append("board=").append(_boardHashCode).append(" ")
         sb.append("children=").append("[")
         for (child in _children) {
             sb.append("\n").append(child.print(tabs+"\t"))

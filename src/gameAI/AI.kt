@@ -11,15 +11,14 @@ class AI : ArtificialIntelligence {
 
     private val game: Game
 
-    constructor(game: Game) : super(Tree(game.matrix.hashCode())) {
-        monteCarlo = Tree(game.matrix.hashCode())
+    constructor(game: Game) : super(Tree(game.generateBoardHash())) {
         stateHistory.add(monteCarlo.currentState.boardHashCode)
         this.game = game
     }
 
-    constructor(game: Game, filename: String) : super(Tree(game.matrix.hashCode())) {
+    constructor(game: Game, filename: String) : super(Tree(game.generateBoardHash())) {
         monteCarlo = when (val temp = loadTree(filename)) {
-            null -> Tree(game.matrix.hashCode())
+            null -> monteCarlo
             else -> {
                 temp
             }
@@ -45,14 +44,17 @@ class AI : ArtificialIntelligence {
         return monteCarlo.currentState.move
     }
 
-    override fun setEnemyMove(boardHashCode: Int, move: Pair<Int, Int>) {
+    override fun setEnemyMove(boardHashCode: String, move: Pair<Int, Int>) {
         for (child in monteCarlo.currentState.children) {
             if (child.boardHashCode == boardHashCode) {
+                println("Enemy move selected id: ${child.id}")
                 monteCarlo.currentState = child
                 return
             }
         }
+        println("Added new enemy move with id: ${Config.identifier}")
         val newState = State(Config.identifier++, 0, 0, monteCarlo.currentState, boardHashCode, move)
+
         monteCarlo.currentState.children.add(newState)
         monteCarlo.currentState = newState
     }
@@ -68,7 +70,7 @@ class AI : ArtificialIntelligence {
                             0,
                             0,
                             monteCarlo.currentState,
-                            -1,
+                            "",
                             moves[i]
                     )
             )
@@ -81,25 +83,26 @@ class AI : ArtificialIntelligence {
         return monteCarlo.currentState.move
     }
 
-    private fun simulate(): Pair<Int, Int> {
-        println("Starting simulation")
+    private fun simulate() {
+        //println("Starting simulation")
         val sim = Simulator(game.player1, game.player2, monteCarlo.currentState.copy(), game.matrix, game.currentPlayer!!)
         thread {
             Thread.sleep(Config.ComputeTime.toLong())
             sim.doSimulate = false
             return@thread
         }
-        thread {
+        val simThread = thread {
             sim.run()
-            println("Simulation ended with result: ${if (sim.gameWon) "won" else "lost"}")
+            //println("Simulation ended with result: ${if (sim.gameWon) "won" else "lost"}")
         }
+        simThread.join()
         monteCarlo.currentState.updateState(sim.gameWon)
-        return monteCarlo.currentState.move
     }
 
     override fun move(startFields: Array<Int>): Pair<Int, Int> {
+        println("Current state: ${monteCarlo.currentState.id}")
         print("Move: ")
-        return when {
+        val nextMove = when {
             monteCarlo.hasNextSelection() -> {
                 select(startFields)
             }
@@ -107,6 +110,8 @@ class AI : ArtificialIntelligence {
                 expand()
             }
         }
+        println("Next move: $nextMove")
+        return nextMove
     }
 
 

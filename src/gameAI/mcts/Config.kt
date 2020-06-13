@@ -1,8 +1,8 @@
 package gameAI.mcts
 
 object Config {
-    var ComputeTime = 500
-    var SimulationIterations = 10
+    var ComputeTime = 2000
+    var SimulationIterations = 100
     var UCB1Constant = 2
-    var identifier = 0
+    var identifier = -1
 }

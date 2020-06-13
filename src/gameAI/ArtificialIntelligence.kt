@@ -4,13 +4,14 @@ import gameAI.mcts.Config
 import gameAI.mcts.State
 import gameAI.mcts.Tree
 import java.io.*
+import java.security.MessageDigest
 import java.util.*
 import kotlin.math.ln
 import kotlin.math.sqrt
 
 abstract class ArtificialIntelligence(internal var monteCarlo: Tree) {
 
-    internal var stateHistory: MutableList<Int> = mutableListOf()
+    internal var stateHistory: MutableList<String> = mutableListOf()
     var filename = "tree.bin"
 
     internal fun calculateUCB1(s: State): Double {
@@ -23,7 +24,7 @@ abstract class ArtificialIntelligence(internal var monteCarlo: Tree) {
     internal fun saveTree(filename: String) {
         val props = Properties()
         props.setProperty("CurrentIdentifier", Config.identifier.toString())
-        props.store(FileOutputStream("tree.properties"), "")
+        props.store(FileOutputStream("${filename}.properties"), "")
         ObjectOutputStream(FileOutputStream(File(filename))).use {
             it.writeObject(monteCarlo)
         }
@@ -32,10 +33,11 @@ abstract class ArtificialIntelligence(internal var monteCarlo: Tree) {
     internal fun loadTree(filename: String): Tree? {
         try {
             val props = Properties()
-            props.load(FileInputStream("tree.properties"))
+            props.load(FileInputStream("${filename}.properties"))
             Config.identifier = (props["CurrentIdentifier"] as String).toInt()
         } catch (e: FileNotFoundException) {
             println("Config file not found, loading defaults")
+            Config.identifier = -1
         } catch (e: Throwable) {
             println(e.localizedMessage)
         }
@@ -57,17 +59,23 @@ abstract class ArtificialIntelligence(internal var monteCarlo: Tree) {
             null -> monteCarlo
             else -> newTree
         }
+        monteCarlo.currentState = monteCarlo.root
+        println(monteCarlo)
     }
 
     fun save() {
         saveTree(filename)
     }
 
-    fun update(boardMatrix: Array<IntArray>) {
-        if (monteCarlo.currentState.boardHashCode != boardMatrix.hashCode())
-            monteCarlo.currentState.boardHashCode = boardMatrix.hashCode()
+    fun update(boardHashCode: String) {
+        if (monteCarlo.currentState.boardHashCode != boardHashCode)
+            monteCarlo.currentState.boardHashCode = boardHashCode
+    }
+
+    fun updateState(gameWon: Boolean){
+        monteCarlo.currentState.updateState(gameWon)
     }
 
     abstract fun move(startFields: Array<Int>): Pair<Int, Int>
-    abstract fun setEnemyMove(boardHashCode: Int, move: Pair<Int, Int>)
+    abstract fun setEnemyMove(boardHashCode: String, move: Pair<Int, Int>)
 }

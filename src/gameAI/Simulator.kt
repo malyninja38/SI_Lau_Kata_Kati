@@ -27,7 +27,7 @@ class Simulator(player1: Player, player2: Player, root: State, matrix: Array<Int
                 0,
                 0,
                 monteCarlo.currentState,
-                game.matrix.hashCode(),
+                game.generateBoardHash(),
                 moves.shuffled()[0]
         )
         monteCarlo.currentState.children.add(random)
@@ -41,7 +41,7 @@ class Simulator(player1: Player, player2: Player, root: State, matrix: Array<Int
 
     fun run() {
         var i = 0
-        while (doSimulate) {
+        while (doSimulate && !game.gameOver) {
             if (i >= Config.SimulationIterations) {
                 doSimulate = false
             }
@@ -54,9 +54,9 @@ class Simulator(player1: Player, player2: Player, root: State, matrix: Array<Int
     }
 
     val gameWon: Boolean
-        get() = game.winner == currentPlayer.number
+        get() = game.winner == currentPlayer
 
-    override fun setEnemyMove(boardHashCode: Int, move: Pair<Int, Int>) {
+    override fun setEnemyMove(boardHashCode: String, move: Pair<Int, Int>) {
         TODO("Actually does nothing")
     }
 }
