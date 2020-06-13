@@ -183,11 +183,11 @@ abstract class GameCore(val player1: Player, val player2: Player) {
         when {
             getPlayerFields(1).isEmpty() -> {
                 gameOver = true
-                winner = player1
+                winner = player2
             }
             getPlayerFields(2).isEmpty() -> {
                 gameOver = true
-                winner = player2
+                winner = player1
             }
         }
 
