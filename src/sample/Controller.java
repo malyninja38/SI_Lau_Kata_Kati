@@ -148,6 +148,7 @@ public class Controller {
     }
 
     public void onClose() {
-        game.close();
+        if(game != null)
+            game.close();
     }
 }
