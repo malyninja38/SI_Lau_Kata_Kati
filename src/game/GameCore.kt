@@ -248,11 +248,19 @@ abstract class GameCore(val player1: Player, val player2: Player) {
                         if (vec[1] == 0 && vec[0] in arrayOf(-1, 1)) {
                             throw InvalidMoveException()
                         } else {
-                            makeMove(startField, endField)
+                            if (abs(vec[0]) <=1 && abs(vec[1]) <= 1) {
+                                makeMove(startField, endField)
+                            } else {
+                                throw InvalidMoveException()
+                            }
                         }
                     }
                     endField == 10 -> {
-                        makeMove(startField, endField)
+                        if (abs(vec[0])<= 1 && abs(vec[1]) <= 1) {
+                            makeMove(startField, endField)
+                        } else {
+                            throw InvalidMoveException()
+                        }
                     }
                 }
             }
