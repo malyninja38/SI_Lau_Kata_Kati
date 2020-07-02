@@ -3,7 +3,6 @@ package sample;
 import game.Game;
 import game.Player;
 import game.PlayerType;
-import gameAI.AI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -11,10 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 
 /*
@@ -48,16 +45,25 @@ public class Controller {
     private boolean klikalne = false;
 
     public void PvPClick() {
+        if(game != null){
+            game.close();
+        }
         game = new Game(new Player(PlayerType.Human, 1), new Player(PlayerType.Human, 2), this);
         game.start();
     }
 
     public void PvAIClick() {
+        if(game != null){
+            game.close();
+        }
         game = new Game(new Player(PlayerType.Human, 1), new Player(PlayerType.AI, 2), this);
         game.start();
     }
 
     public void AIvAIClick() {
+        if(game != null){
+            game.close();
+        }
         game = new Game(new Player(PlayerType.AI, 1), new Player(PlayerType.AI, 2), this);
         game.start();
     }
